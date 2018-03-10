@@ -1,2 +1,2 @@
 install:
-	pip3 install pdfminer.six
+	pip3 install -r requirements.txt
