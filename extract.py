@@ -2,8 +2,8 @@ from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
-
 from io import StringIO
+
 from nltk.tokenize import sent_tokenize
 
 def scrape_pdf(pdfname):
@@ -27,11 +27,3 @@ def scrape_pdf(pdfname):
     sio.close()
 
     return text
-
-
-extracted = scrape_pdf("resume.pdf")
-
-sentences = sent_tokenize(extracted)
-
-for item in sentences:
-    print(item)
