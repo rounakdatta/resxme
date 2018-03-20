@@ -6,7 +6,7 @@ def get_cgpa(text):
 	gpa_regex = re.compile(r"gpa(.*)[0-9].[0-9](.*)/(.*)10")
 	cgpa_string = gpa_regex.search(text).group(0)
 
-	regex = re.compile(r"[+-]?\d+(?:\.\d+)?")
+	num_regex = re.compile(r"[+-]?\d+(?:\.\d+)?")
 	cgpa = num_regex.search(cgpa_string).group(0)
 	return cgpa
 
