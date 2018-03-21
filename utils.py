@@ -4,7 +4,7 @@ NoneType = type(None)
 def get_cgpa(text):
 	text = text.lower()
 
-	gpa_regex = re.compile(r"gpa(.*)[0-9].[0-9](.*)/(.*)10")
+	gpa_regex = re.compile(r"gpa|cpi(.*)[0-9].[0-9](.*)/(.*)10")
 	cgpa_string = gpa_regex.search(text)
 
 	if not isinstance(cgpa_string, NoneType):
@@ -25,7 +25,7 @@ def get_cgpa(text):
 def get_college(text):
 	text = text.lower()
 
-	college_regex = re.compile(r"(education|college|university|institute)(.*)")
+	college_regex = re.compile(r"(.*)(education|college|university|institute|engineering)(.*)")
 	college_string = college_regex.search(text)
 
 	if not isinstance(college_string, NoneType):
@@ -38,7 +38,7 @@ def get_college(text):
 def get_skills(text):
 	text = text.lower()
 
-	skills_regex = re.compile(r"(skill|interest)(.*)(\D*)[^*]")
+	skills_regex = re.compile(r"(skill|interest|language|area|programming|tool|framwork|coding|platform|software|os|extensive|expert|intermediate|beginner|basic)(.*)(\D*)[^*]")
 	skills_string = skills_regex.search(text)
 
 	if not isinstance(skills_string, NoneType):
