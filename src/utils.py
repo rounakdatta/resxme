@@ -4,7 +4,7 @@ NoneType = type(None)
 def get_cgpa(text):
 	text = text.lower()
 
-	gpa_regex = re.compile(r"gpa|cpi(.*)[0-9].[0-9](.*)/(.*)10")
+	gpa_regex = re.compile(r"(.*)gpa|cpi(.*)[0-9].[0-9](.*)/(.*)10")
 	cgpa_string = gpa_regex.search(text)
 
 	if not isinstance(cgpa_string, NoneType):
