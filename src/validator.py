@@ -1,6 +1,7 @@
 from src.extract import scrape_pdf
 from src.utils import get_cgpa, get_college, get_skills
 
+import spacy
 from nltk.tokenize import sent_tokenize
 
 # helper functions for validating various criteria
@@ -28,29 +29,28 @@ def validate_skills(skills, requirement):
 
 def resume_score(req1, req2, req3):
 
-	extracted = scrape_pdf("./data/resume_dataset/resume.pdf")
-	sentences = sent_tokenize(extracted)
+	item = scrape_pdf("./data/resume_dataset/resume.pdf")
+	#sentences = sent_tokenize(extracted)
 	
 	points = 0
 	
-	for item in sentences:
-		cgpa = get_cgpa(item)
-		college = get_college(item)
-		skills = get_skills(item)
-	
-		if cgpa is not None:
-			if(validate_cgpa(cgpa, req1)):
-				print(cgpa)
-				points += 1
-	
-		if college is not None:
-			if(validate_college(college, req2)):
-				print(college)
-				points += 1
-	
-		if skills is not None:
-			if(validate_skills(skills, req3)):
-				print(skills)
-				points += 1
+	#for item in sentences:
+	cgpa = get_cgpa(item)
+	college = get_college(item)
+	skills = get_skills(item, req3)
+
+	if cgpa is not None:
+		if(validate_cgpa(cgpa, req1)):
+			print(cgpa)
+			points += 1
+
+	'''if college is not None:
+		if(validate_college(college, req2)):
+			print(college)
+			points += 1'''
+
+	if skills is not None:
+		if skills == True:
+			points += 1
 	
 	print("Points : " + str(points) + "/3")

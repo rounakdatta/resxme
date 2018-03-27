@@ -1,3 +1,5 @@
+import spacy
+
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
 from pdfminer.converter import TextConverter
@@ -26,4 +28,7 @@ def scrape_pdf(pdfname):
     device.close()
     sio.close()
 
-    return text
+    nlp = spacy.load('en_core_web_sm')
+    nlp_doc = nlp(text)
+
+    return nlp_doc
