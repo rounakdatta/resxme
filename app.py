@@ -15,8 +15,10 @@ def index():
 		#print(cgpa)
 		#print(college)
 		#print(skill)	
+		n = 5
 
-		validator.resume_score(cgpa, str(college), str(skill))
+		for i in range(1, n + 1):
+			validator.resume_score(cgpa, str(college), str(skill), str(i))
 
 		return render_template('index.html')
 	else:

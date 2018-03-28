@@ -27,30 +27,35 @@ def validate_skills(skills, requirement):
 
 # determine the resume score
 
-def resume_score(req1, req2, req3):
+def resume_score(req1, req2, req3, n):
 
-	item = scrape_pdf("./data/resume_dataset/resume.pdf")
-	#sentences = sent_tokenize(extracted)
+	itemx = scrape_pdf("./data/resume_dataset/resume" + n + ".pdf")
+	nlp = spacy.load('en_core_web_sm')
+	item = nlp(itemx)
+
+	skill_payload = sent_tokenize(itemx)
 	
 	points = 0
 	
 	#for item in sentences:
 	cgpa = get_cgpa(item)
-	college = get_college(item)
 	skills = get_skills(item, req3)
 
 	if cgpa is not None:
 		if(validate_cgpa(cgpa, req1)):
-			print(cgpa)
+			#print(cgpa)
 			points += 1
 
-	'''if college is not None:
-		if(validate_college(college, req2)):
-			print(college)
-			points += 1'''
+	for foo in skill_payload:
+		college = get_college(foo)
+
+		if college is not None:
+			if(validate_college(college, req2)):
+				#print(college)
+				points += 1
 
 	if skills is not None:
 		if skills == True:
 			points += 1
 	
-	print("Points : " + str(points) + "/3")
+	print("resume" + n + " : " + "Points : " + str(points) + "/3")

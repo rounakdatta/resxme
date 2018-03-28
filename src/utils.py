@@ -13,9 +13,9 @@ def get_cgpa(text):
 			return gpa
 
 def get_college(text):
-	'''text = text.lower()
+	text = text.lower().replace(',', '').replace('.', '').replace('–', '').replace('-', '').replace('(', '').replace(')', '')
 
-	college_regex = re.compile(r"(.*)(education|college|university|institute|engineering)(.*)")
+	college_regex = re.compile(r"(.*)(education|college|university|institute|engineering|technology|bachelor)(.*)")
 	college_string = college_regex.search(text)
 
 	if not isinstance(college_string, NoneType):
@@ -23,8 +23,7 @@ def get_college(text):
 	else:
 		return
 
-	return college_string'''
-	return 0
+	return college_string
 
 def get_skills(text, query):
 
