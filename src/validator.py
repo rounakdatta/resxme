@@ -3,6 +3,7 @@ from src.utils import get_cgpa, get_college, get_skills
 
 import spacy
 from nltk.tokenize import sent_tokenize
+import subprocess
 
 # helper functions for validating various criteria
 
@@ -29,7 +30,8 @@ def validate_skills(skills, requirement):
 
 def resume_score(req1, req2, req3, n):
 
-	itemx = scrape_pdf("./data/resume_dataset/resume" + n + ".pdf")
+	filename = "./data/resume_dataset/resume" + n + ".pdf"
+	itemx = scrape_pdf(filename)
 	nlp = spacy.load('en_core_web_sm')
 	item = nlp(itemx)
 
@@ -59,3 +61,9 @@ def resume_score(req1, req2, req3, n):
 			points += 1
 	
 	print("resume" + n + " : " + "Points : " + str(points) + "/3")
+	location = subprocess.check_output("pwd", shell=True).decode("utf-8")
+
+	if(points >= 2):
+		return True, (location[:-1] + filename[1:])
+	else:
+		return False, (location[:-1] + filename[1:])

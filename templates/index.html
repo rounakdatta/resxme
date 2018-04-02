@@ -25,5 +25,13 @@
         <input style="margin-left:250px;" type="submit" name="submit" value="Submit">
       </div>
     </form>
+
+    {% for file in files %}
+
+      <a href="{{file}}">{{file}}</a>
+      <br>
+
+  {% endfor %}
+
   </body>
 </html>
