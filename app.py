@@ -15,7 +15,7 @@ def index():
 		#print(cgpa)
 		#print(college)
 		#print(skill)	
-		n = 5
+		n = 15
 
 		chosen_resume = []
 

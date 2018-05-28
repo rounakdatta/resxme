@@ -5,6 +5,20 @@ import spacy
 from nltk.tokenize import sent_tokenize
 import subprocess
 
+import pyrebase
+
+# firebase initializations
+
+config = {
+  "apiKey": "AIzaSyB8AHvyWEhrs5H-iE3CCMa0J5LRDyVHqsg",
+  "authDomain": "resxme-6c10f.firebaseapp.com",
+  "databaseURL": "https://resxme-6c10f.firebaseio.com",
+  "storageBucket": "resxme-6c10f.appspot.com",
+}
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+
 # helper functions for validating various criteria
 
 def validate_cgpa(cgpa, requirement):
@@ -12,14 +26,19 @@ def validate_cgpa(cgpa, requirement):
 	if(float(cgpa) >= float(requirement)):
 		return True
 
-def validate_college(college, requirement):
+def validate_college(college, requirement, n):
 
 	f = open("./data/college_dataset/" + requirement, 'r')
-	college_dataset = f.read().lower().replace(',', '').split()
+	college_dataset = f.read().lower().replace(',', '').splitlines()
 
-	college = college.replace(',', '').replace('.', '').replace('–', '').replace('-', '').replace('(', '').replace(')', '').split()
-	if(set(college).issubset(college_dataset) and len(college) >= 2):
-		return True
+	college = college.replace(',', '').replace('.', '').replace('–', '').replace('-', '').replace('(', '').replace(')', '')
+
+	for single_college in college_dataset:
+		if(set(single_college).issubset(college)):
+			db.child("candidates").child("resume" + str(n))
+			data = {"college" : single_college}
+			db.update(data)
+			return True
 
 def validate_skills(skills, requirement):
 
@@ -41,20 +60,27 @@ def resume_score(req1, req2, req3, n):
 	
 	#for item in sentences:
 	cgpa = get_cgpa(item)
-	skills = get_skills(item, req3)
+	skills = get_skills(item, req3, n)
 
 	if cgpa is not None:
 		if(validate_cgpa(cgpa, req1)):
-			#print(cgpa)
+			db.child("candidates").child("resume" + str(n))
+			data = {"cgpa" : cgpa}
+			db.update(data)
 			points += 1
 
-	for foo in skill_payload:
-		college = get_college(foo)
+	def check_college(payload):
+		for foo in skill_payload:
+			foo = foo.splitlines()
+			for inn in foo:
+				college = get_college(inn)
+	
+				if college is not None:
+					if(validate_college(college, req2, n)):
+						return True
 
-		if college is not None:
-			if(validate_college(college, req2)):
-				#print(college)
-				points += 1
+	if(check_college(skill_payload)):
+		points += 1
 
 	if skills is not None:
 		if skills == True:
