@@ -1,19 +1,12 @@
-import pyrebase
+import redis
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-config = {
-  "apiKey": "AIzaSyB8AHvyWEhrs5H-iE3CCMa0J5LRDyVHqsg",
-  "authDomain": "resxme-6c10f.firebaseapp.com",
-  "databaseURL": "https://resxme-6c10f.firebaseio.com",
-  "storageBucket": "resxme-6c10f.appspot.com",
-}
+import json
+from decimal import Decimal
 
-firebase = pyrebase.initialize_app(config)
-db = firebase.database()
+n = 20
 
-for i in range(1, 16):
-	curr_file = "resume" + str(i)
-	cgpa = db.child("candidates").child(curr_file).child("cgpa").get()
-	college = db.child("candidates").child(curr_file).child("college").get()
-	skills = db.child("candidates").child(curr_file).child("skills").get()
-	print(cgpa.val())
-	print(college.val())
+for i in range(1, n+1):
+	curr_resume = "resume" + str(i)
+	payload = json.loads(r.get(curr_resume).decode('utf8').replace("'", '"'))
+	print(str(i) + " " + payload["college"])
