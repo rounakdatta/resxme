@@ -3,20 +3,6 @@ import spacy
 import re
 NoneType = type(None)
 
-import pyrebase
-
-# firebase initializations
-
-config = {
-  "apiKey": "AIzaSyB8AHvyWEhrs5H-iE3CCMa0J5LRDyVHqsg",
-  "authDomain": "resxme-6c10f.firebaseapp.com",
-  "databaseURL": "https://resxme-6c10f.firebaseio.com",
-  "storageBucket": "resxme-6c10f.appspot.com",
-}
-
-firebase = pyrebase.initialize_app(config)
-db = firebase.database()
-
 def get_cgpa(text):
 	for token in text:
 		if str(token) in ['CGPA', 'GPA', 'CPI', '10', 'out of', '5.0', '10.0', '/10']:
@@ -47,12 +33,8 @@ def get_skills(text, query, n):
 
 	skill = str([sent for sent in text.sents if 'skill' or 'languages' or 'interest' or 'software' or 'platform' or 'programming' or 'tool' or 'framework' in sent.string.lower()]).replace(',', '').splitlines()
 
-	db.child("candidates").child("resume" + str(n))
-	data = {"skills" : skill}
-	db.update(data)
-
 	for el in skill:
 		if query in str(el).lower():
-			return True
+			return True, skill
 
-	return False
+	return False, skill
