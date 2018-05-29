@@ -34,7 +34,7 @@ def validate_college(college, requirement, n):
 	college = college.replace(',', '').replace('.', '').replace('–', '').replace('-', '').replace('(', '').replace(')', '')
 
 	for single_college in college_dataset:
-		if(set(single_college).issubset(college)):
+		if(single_college in college):
 			db.child("candidates").child("resume" + str(n))
 			data = {"college" : single_college}
 			db.update(data)
