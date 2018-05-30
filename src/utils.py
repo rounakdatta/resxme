@@ -10,7 +10,8 @@ def get_cgpa(text):
 			gpa = list(filter(lambda x: x.like_num == True, myset))
 			try:
 				gpa = (str((gpa[0])).split('/', 1)[0])
-				return gpa
+				if('.' in gpa):
+					return gpa
 			except IndexError:
 				print("", end='')
 				return 0
