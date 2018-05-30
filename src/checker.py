@@ -11,7 +11,7 @@ for i in range(1, n+1):
 	curr_resume = "resume" + str(i)
 	try:
 		payload = json.loads(r.get(curr_resume).decode('utf8').replace("'", '"'))
-		print(payload["cgpa"])
+		print(payload["skills"])
 		good_results += 1
 	except:
 		print("null")

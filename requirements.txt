@@ -2,4 +2,4 @@ pdfminer.six
 flask
 nltk
 spacy
-pyrebase
+redis

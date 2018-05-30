@@ -5,8 +5,6 @@ import spacy
 from nltk.tokenize import sent_tokenize
 import subprocess
 
-import pyrebase
-
 import redis
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
