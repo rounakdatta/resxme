@@ -37,7 +37,6 @@ def preprocess():
 def giveMeJSON(i):
 	curr_resume = "resume" + str(i)
 	result = json.loads(r.get(curr_resume).decode('utf8').replace("'", '"'))
-	print(type(result))
 	return jsonify(result)
 
 @app.route('/checker', methods=['GET', 'POST'])
@@ -48,23 +47,47 @@ def checker():
 		college = request.form['college']
 		skill = request.form['skill']
 
-		#print(cgpa)
-		#print(college)
-		#print(skill)	
-		n = 44
+		f = open('./data/pstatus', 'r')
+		processed = f.read()
+		f.close()
+	
+		n = int(processed)
 
-		chosen_resume = []
-
+		all_resumes = {}
+		
 		for i in range(1, n + 1):
-			status, file = validator.resume_score(cgpa, str(college), str(skill), str(i))
-			if(status):
-				chosen_resume.append(file)
+			point = 0
+			curr_resume = "resume" + str(i)
+			try:
+				print(str(i) + " : ", end="")
+				payload = json.loads(r.get(curr_resume).decode('utf8').replace("'", '"'))
+				try:
+					if(float(payload["cgpa"] > cgpa)):
+						point += 1
+				except:
+					print("", end="")
+				try:
+					if(payload["college"] != "null"):
+						point += 1
+				except:
+					print("", end="")
+				try:
+					sFound = "N"
+					for skill_test in payload["skills"]:
+						if(skill in skill_test.lower()):
+							point += 1
+							sFound = "Y"
+							break
+				except:
+					print("", end="")
 
-		print(chosen_resume)
+				print(str(point) + "/3")
+				all_resumes[str(i)] = {"Points" : point, "CGPA" : float(payload["cgpa"]), "College" : payload["college"], "Skill Found (Y/N)" : sFound }
 
-		return render_template('index.html', files=chosen_resume)
-	else:
-		return render_template('index.html')
+			except:
+				print("null")
+
+		return jsonify(all_resumes)
 
 
 if __name__ == '__main__':
