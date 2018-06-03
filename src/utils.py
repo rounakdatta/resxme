@@ -30,12 +30,7 @@ def get_college(text):
 
 	return college_string
 
-def get_skills(text, query, n):
+def get_skills(text, n):
 
 	skill = str([sent for sent in text.sents if 'skill' or 'languages' or 'interest' or 'software' or 'platform' or 'programming' or 'tool' or 'framework' in sent.string.lower()]).replace(',', '').splitlines()
-
-	for el in skill:
-		if query in str(el).lower():
-			return True, skill
-
-	return False, skill
+	return skill

@@ -5,10 +5,17 @@
   </head>
   <body>
     <h1>Resume Classifier</h1>
-    <form method="POST" action="">
+
+    <form method="POST" action="/preprocess">
+      <input type="submit" name="preprocessbutton", value="PREPROCESS">
+    </form>
+
+    <br><br><hr><br>
+
+    <form method="POST" action="/checker">
       <div>
       	<label style="margin-left:15px;" for="cgpa">CGPA :</label>
-      	<input id="cgpa" type="number" placeholder="7.5" step="0.01" name="cgpa" min="0.00" max="10.00">
+      	<input id="cgpa" type="number" placeholder="7.5" step="0.01" name="cgpa" min="0.00" max="10.00" required>
 
       	<label style="margin-left:55px;" for="college">Institution :</label>
       	<select id="college" name="college">
@@ -18,7 +25,7 @@
       </select>
       	
       	<label style="margin-left:95px;" for="skill">Skill :</label>
-      	<input id="skill" type="text" placeholder="e.g. java" name="skill">
+      	<input id="skill" type="text" placeholder="e.g. java" name="skill" required>
 
       	<br><br><br>
 
