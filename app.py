@@ -82,7 +82,8 @@ def checker():
 					print("", end="")
 
 				print(str(point) + "/3")
-				all_resumes[str(i)] = {"Points" : point, "CGPA" : float(payload["cgpa"]), "College" : payload["college"], "Skill Found (Y/N)" : sFound }
+				href = os.getcwd() + "/data/resume_dataset/resume" + str(i) + ".pdf"
+				all_resumes[str(i)] = {"Points" : point, "CGPA" : float(payload["cgpa"]), "College" : payload["college"], "Skill Found (Y/N)" : sFound, "Location" : href }
 
 			except:
 				print("null")
