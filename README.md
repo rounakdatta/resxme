@@ -1,3 +1,4 @@
+
 # ResXme - The Resume Mining Tool
 
 ResXme is a resume parsing tool that can read resumes in PDFs, DocX formats. Once resumes are submitted each resume can be evaluated based on queries if certain parameters match / not. The tool makes resume search (mining for criteria) super-easy and fast.
@@ -5,40 +6,36 @@ ResXme is a resume parsing tool that can read resumes in PDFs, DocX formats. Onc
 ## NLP
 
 The project makes extensive use of the following Python NLP libraries:
- - **SpaCy** (excellent library for splitting into sentences, tokenizing sentence, generating POS tags and determiners)
- - **NLTK** (helps in tokenizing, visualizing sentence structure tree, has huge collection of data corpus)
- - **language_check** (great spelling-correction library with extensive support for simple grammar suggestions, punctuation errors)
- - **pattern** (a CLiPS product which helps in conjugating verbs - helps form the correct structure of the verb based on the tense, person, number, mood)
- - **sympound** (another spelling correction algorithm-based library which even accepts dictionary)
- - **numpy** (for minor mathematical calculations and memory-storage of dictionaries)
+ - **SpaCy** (excellent library for identifying sentences, tokenizing sentence)
+ - **NLTK** (helps in tokenizing)
+- **Regex** (used to find out useful patterns in data)
 
 ## Algorithms
 
-Grammar correction algorithms are implemented with help from these libraries. There are algorithms for:
+Consists of three sub-sections - CGPA, college, skills and has **extracting** and **validating** tools for each of them.
 
- - Spelling correction (what are yuo doign in hte collrge -> **What are you doing in the college.**)
- - V-V correction (He is play in the garden. -> **He is playing in the garden.**)
- - V-V-V correction (Harry has been watched movie since afternoon. -> **Harry has been watching movie since afternoon.**)
- - Preposition correction (The children are sitting on the room. -> **The children are sitting in the room.**)
- - Sentence structure correction (I am looking at boy. -> **I am looking at the boy.**)
+- [bulk-renamer.py](https://github.com/rounakdatta/resxme/blob/webapp-spacy/src/bulk-renamer.py) - to rename the resumes in an order (not required if each one's unique)
+- [extract.py](https://github.com/rounakdatta/resxme/blob/webapp-spacy/src/extract.py) - to scrape data from a PDF-format resume (uses pdfminer).
+- [extract1.py](https://github.com/rounakdatta/resxme/blob/webapp-spacy/src/extract1.py) - to scrape data from a DocX-format resume (uses docx2txt)
+- [utils.py](https://github.com/rounakdatta/resxme/blob/webapp-spacy/src/utils.py) - contains all the necessary functions for extracting the required criteria from the scraped document.
+- [validator.py](https://github.com/rounakdatta/resxme/blob/webapp-spacy/src/validator.py) - contains all the required functions to validate if the extracted criteria matches with the specified data. Also, the resume score is returned (depending on how many matches are found).
+- [checker.py](https://github.com/rounakdatta/resxme/blob/webapp-spacy/src/checker.py) - to handle the traversing of resumes
+
+## System Design
+
+![Architecture Diagram](https://i.imgur.com/7olSjVE.png)
 
 ## Getting started
 
-The project has been built entirely using Python 3. The backend framework is powered by Flask. To install all the dependencies, you need to clone the repository, navigate to it and type ``make install``. To start the application, you can type ``make start`` OR ``python3 app.py`` and then navigate to [localhost:5000](http://localhost:5000).
+The project has been built entirely using Python 3. The backend framework is powered by Flask. To install all the dependencies, you need to clone the repository, navigate to it and type ``make install``. To start the application, you can type ``make go`` OR ``python3 app.py`` and then navigate to [localhost:5000](http://localhost:5000).
 
-The application can be used as:
+The application can be used by inputting the criteria (threshold **CGPA**, T1 **college**/not, required **skills**). As output, JSON is returned which consists all the resumes that satisfy 2/3 or above of the given criteria.
 
- 1. Raw text inputted through the text box.
- 2. DocX document uploaded and processed with all text formatting taken care of. The spelling and grammar-corrected document is returned in the DocX format.
+Following are the attributes of the JSON for each resume displayed:
 
-The application outputs the corrected document / raw text with some statistics:
-
- - Number of errors of each type
- - Total number of errors (indicates the severity of the document)
- - Display the table containing the incorrect sentence structure and the correct sentence structure.
-
-## To Do
-
- - [ ] The preposition as well as sentence structure correction is powered by data - so more the data, better it works. So, **dataset improvement**.
- - [ ] The system still isn't very natural in suggesting the sentences (and might break for extreme cases) - so replacing the algorithms with a **neural network-integrated approach**.
-
+ - Resume file name
+ - Resume location
+ - CGPA match (T/F)
+ - College match (T/F)
+ - Skill found (T/F)
+ - Total score (out of 3)
